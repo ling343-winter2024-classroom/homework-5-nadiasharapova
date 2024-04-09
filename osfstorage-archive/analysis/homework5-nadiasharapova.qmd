@@ -2,4 +2,40 @@
 title: "My Homework 5"
 author: "Nadia Sharpaova"
 format: html
+editor_options: 
+  chunk_output_type: console
 ---
+make look like report, minimal 1. 2. etc. make it look like a real report. right real prose paragraphs
+Prediction in the Maze
+
+Background stuff... the hypo was....
+
+#| warning:false
+helpful for reducing bacjground stuff 
+
+Codebook/Data Dictionary
+
+These are the variables in the raw data
+ 
+Install Necessary Packages
+```{r}
+library(lme4)
+library(tidyverse)
+library(stringr)
+library(here)
+```
+
+## Importing Data
+
+```{r}
+#directory <- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"
+
+d <- read.csv(here("osfstorage-archive/data/delong maze 40Ss.csv"), 
+              header = 0, sep = ",", comment.char = "#",strip.white = T,
+              col.names = c("Index","Time","Counter","Hash","Owner","Controller","Item","Element","Type","Group","FieldName","Value","WordNum","Word","Alt","WordOn","CorrWord","RT","Sent","TotalTime","Question","Resp","Acc","RespRT"))
+
+
+
+
+```
+
