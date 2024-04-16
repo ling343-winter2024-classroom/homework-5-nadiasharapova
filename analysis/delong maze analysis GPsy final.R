@@ -21,7 +21,7 @@ d <- read.csv(paste(directory,"data\\delong maze 40Ss.csv",sep=""),
 
 demo <- d[d$Controller == "Form",1:12]
 names(demo) <- c("Subject","MD5","TrialType","Number","Element","Experiment","Item","Field","Response","X","field","resp")
-demo <- as.data.frame(lapply(demo, function (x) if (is.factor(x) | is.character(x)) factor(x) else x)) 
+demo <- as.data.frame(lapply(demo, function (x) if (is.factor(x) | is.character(x)) factor(x) else x))
 
 resp <- d[d$Controller == "Question" & substr(d$Type,1,4) != "prac", c(1:10,21:24)]
 resp <- separate(data = resp, col = Type, into = c("exp", "item", "expect", "position", "pos", "cloze", "art.cloze", "n.cloze"), sep = "\\.", convert = TRUE, fill = "right")
