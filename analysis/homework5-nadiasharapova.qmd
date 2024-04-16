@@ -1,41 +1,45 @@
 ---
 title: "My Homework 5"
-author: "Nadia Sharpaova"
-format: html
+author: "Nadia Sharapova"
+format: 
+  html:
+    code-fold: true
+    code-tools: true
 editor_options: 
   chunk_output_type: console
 ---
-make look like report, minimal 1. 2. etc. make it look like a real report. right real prose paragraphs
-Prediction in the Maze
 
-Background stuff... the hypo was....
+## Introduction and Overview
+  This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast and incremental processes. The study looked to support the theory that comprehenders predicted upcoming words and that predictive processes playa large role in language comprehension.
+  In the maze task, indivudals were presented with sentences like "The reporter had dinner yesterday with the baseball player who Kevin admired" along with a sequence of choices between two alternatives. for continuing the sentence. The two alternatives were either the correct continution of the sentence ora. Distractor that is anamolous given the sentence gonext or pseudowords. This study used an A-maze task to manipulate noun predictiablity and analyze how predicion occurs in the field of linguistics. 
+  
+  
 
-#| warning:false
-helpful for reducing bacjground stuff 
-
-Codebook/Data Dictionary
-
-These are the variables in the raw data
- 
-Install Necessary Packages
-```{r}
+## Setup
+```{r message= FALSE, warning=FALSE}
 library(lme4)
 library(tidyverse)
 library(stringr)
+library(ggplot2)
 library(here)
+library(kableExtra)
 ```
 
-## Importing Data
 
+## Importing Data and Changing Directory for Analysis
 ```{r}
 #directory <- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"
-
-d <- read.csv(here("osfstorage-archive/data/delong maze 40Ss.csv"), 
+d <- read.csv(here("~/Ling 343/HW FR/homework-5-nadiasharapova/data/delong maze 40Ss.csv"), 
               header = 0, sep = ",", comment.char = "#",strip.white = T,
               col.names = c("Index","Time","Counter","Hash","Owner","Controller","Item","Element","Type","Group","FieldName","Value","WordNum","Word","Alt","WordOn","CorrWord","RT","Sent","TotalTime","Question","Resp","Acc","RespRT"))
-
-
-
-
 ```
 
+
+
+Methods/Tests
+
+Results
+
+Discussion
+
+Conclusions
