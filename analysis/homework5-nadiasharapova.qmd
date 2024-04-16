@@ -11,10 +11,11 @@ editor_options:
 
 ## Introduction and Overview of Study
 
-This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast in incremental processes. The study looked to support the theory that predictive processes play a large role in language comprehension. In the maze task, individuals were presented with sentences like "The reporter had dinner yesterday with the baseball player who Kevin admired" along with a sequence of choices between two alternatives for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is either anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics.
+This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast in incremental processes. The study looked to support the theory that predictive processes play a large role in language comprehension.
+
+In the maze task, individuals were presented with sentences like "The reporter had dinner yesterday with the baseball player who Kevin admired" along with a sequence of choices between two alternatives for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is either anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics.
 
 ## Setup
-
 ```{r message= FALSE, warning=FALSE}
 library(lme4)
 library(tidyverse)
@@ -27,18 +28,18 @@ library(plotly)
 ```
 
 ## Importing Data and Changing Directory for Analysis
-
 ```{r}
 #directory <- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"
 here :: i_am ("analysis/homework5-nadiasharapova.qmd")
 library(here)
 
-df_all <- read.csv(here("data/delong maze 40Ss.csv"), 
+d <- read.csv(here("data/delong maze 40Ss.csv"), 
               header = 0, sep = ",", comment.char = "#",strip.white = T,
               col.names = c("Index","Time","Counter","Hash","Owner","Controller","Item","Element","Type","Group","FieldName","Value","WordNum","Word","Alt","WordOn","CorrWord","RT","Sent","TotalTime","Question","Resp","Acc","RespRT"))
 
-```
+df_all <- d
 
+```
 
 ## Codebook/Data Dictionary
 
@@ -47,6 +48,7 @@ df_all <- read.csv(here("data/delong maze 40Ss.csv"),
 | Index      | Results Index                                   |
 | Time       | Time                                            |
 | Counter    | Counter                                         |
+| Hash       | Hash                                            |
 | Owner      | Logged in as experiment owner? (if known)       |
 | Controller | Controller Name                                 |
 | Item       | Item Number                                     |
@@ -68,14 +70,29 @@ df_all <- read.csv(here("data/delong maze 40Ss.csv"),
 | Acc        | Whether or not answer was correct (NULL if N/A) |
 | RespRT     | Time taken to answer                            |
 
-:  [**Maze Task Data Dictionary**]{.underline}
+: [**Maze Task Data Dictionary**]{.underline}
+
+
+
+## How many participants do you have data for in total?
+
+For this step, I wanted to calculate the number of participants that I had data for. In the study, there were initially 40 participants, however one participant's results didn't transfer so there were only 39 for initial analysis. I also screened out the tenth row to remove the first row, which just had the label for my column "hash."
+
+```{r}
+ num_participants <- d %>% 
+   count(Hash)
+
+num_participants <- num_participants[-10,]
+
+count(num_participants)
+
+```
 
 
 
 ## How many rows of data remained after removing the trials as described in the "data analysis" section?
 
-For this step, I removed the data that was
-
+For this step, item 29 was removed as there was a coding error. This left 67526 rows after removing the trials described in the data analysis section.
 ```{r}
 df_rt <- df_all |> 
   filter(Controller == "Maze" & !str_detect(Type, "prac")) |> 
@@ -95,13 +112,145 @@ df_rt <- df_all |>
 count(df_rt)
 ```
 
-## How many participants do you have data for in total?
 
-For this step, I wanted to calculate the number of participants for analysis in my dataset, considering that 1 is excluded due to coding errors.
+
+
+## Table showing the mean, min, max, and standard deviation of participant ages. 
+
+(as a table in the markdown, not as R output)
 
 ```{r}
-num_participants <- df_rt %>% 
-  count(Hash)
+set.seed(343)
 
-count(num_participants)
+p_parts <- rt.s.filt |> 
+  filter(rgn.fix == 0) |> 
+  group_by(Hash, expect) |> 
+  summarize(RT = mean(RT, na.rm = TRUE)) |> 
+  ggplot(aes(x=expect, y=RT, color = expect)) +
+  geom_jitter(stat = "identity", width = .1, alpha = .8) +
+  geom_point(stat = "summary", fun = mean, 
+             shape = 4, color = "blue", size = 4) +
+  labs(x = "Condition", y = "Reading Time (msec)") + 
+  theme_bw() 
+
+
+ggplotly(p_parts)
 ```
+
+```{r}
+rt.s.filt |> 
+  filter(rgn.fix == 0) |> 
+  group_by(Hash, expect) |> 
+  summarize(RT = mean(RT, na.rm = TRUE)) |> 
+  ggplot(aes(x=expect, y=RT, shape = expect, group = Hash, color = Hash)) +
+  geom_line() +
+  geom_point(stat = "identity", alpha = .8, size = 2) +
+  labs(x = "Condition", y = "Reading Time (msec)") + 
+  theme_minimal() +
+  theme(legend.position = "none") 
+```
+
+
+Coding Test
+```{r}
+library(lme4) # package for linear mixed effects
+library(lmerTest) # package for p-values from lme4 models
+```
+only look at the articles, when you do stats wanna look at on avg data, run your model on totally average data, don't want to do much to it
+```{r}
+m_lm <- lm(RT ~ expect, 
+           data = filter(rt.s.filt, rgn.fix == 0))
+summary(m_lm)
+```
+
+
+```
+
+
+
+
+
+
+```{r}
+subj.age <- demo %>% filter(field == "age") %>% group_by(Number) %>% summarize(age = as.numeric(as.character(resp))) %>% as.data.frame()
+names(subj.age) <- c("Hash", "age")
+subj.age$age.c <- subj.age$age - mean(subj.age$age)
+
+rt.s.filt <- left_join(rt.s.filt, subj.age, by="Hash")
+
+subj.exp.rts <- rt.s.filt %>% filter(rgn.fix == 0) %>% filter(Acc == 1) %>% group_by(Hash, expect) %>% summarize(rt.m = mean(RT)) %>% pivot_wider(names_from = expect, values_from = rt.m) %>% mutate(diff = unexpected - expected)
+left_join(subj.exp.rts, rt.s.filt[,c("Hash","age","subj.rt.mean")], by = "Hash") %>% distinct(Hash, .keep_all = T) %>% select(Hash, age, subj.rt.mean, expected, unexpected, diff) %>% arrange(-diff) %>% as.data.frame()
+
+rt.untrans.rgn0.age.m <- lmer(RT ~ expect*age.c + (1+expect|Hash) + (1+expect|item), data=rt.s.filt[rt.s.filt$Acc == 1 & rt.s.filt$rgn.fix == 0,])
+summary(rt.untrans.rgn0.age.m)
+
+age.rts.rgn0 <- rt.s.filt %>% filter(rgn.fix == 0) %>% filter(Acc == 1) %>% group_by(age, expect) %>% summarize(age.mean = mean(RT)) %>% as.data.frame()
+
+art.age.untrans.emmip <- emmip(rt.untrans.rgn0.age.m, expect ~ age.c, cov.reduce = range)
+
+art.part.age.untrans.g <- ggplot() +
+  geom_point(data=age.rts.rgn0, aes(x=age, y=age.mean, group=expect, shape=expect), stat = "identity", position=position_dodge(width=.1), alpha=.3) +
+  geom_line(data=age.rts.rgn0, aes(x=age, y=age.mean, group=age), stat = "identity", alpha=.3) +
+  geom_line(data=art.age.untrans.emmip$data, aes(x=age.c + mean(subj.age$age), y=yvar, group=expect, linetype=expect), stat="identity", size=1) +
+  scale_linetype_discrete(name="", labels=c("Expected", "Unexpected")) + 
+  scale_shape_manual(name="", labels=c("Expected", "Unexpected"), values=c(21, 19)) +
+  xlab("Participant Age") + ylab("RT on Article (msec)") + theme_bw(base_size=12) + theme(legend.position="bottom", legend.text=element_text(size=10))
+art.part.age.untrans.g
+ggsave(paste(directory,"delong maze article RT given age.png",sep=""), dpi=300, height=70, width=190, units="mm")
+
+rt.untrans.rgn1.age.m <- lmer(RT ~ expect*age.c + (1+expect|Hash) + (1+expect|item), data=rt.s.filt[rt.s.filt$Acc == 1 & rt.s.filt$rgn.fix == 1,])
+summary(rt.untrans.rgn1.age.m)
+
+age.rts.rgn1 <- rt.s.filt %>% filter(rgn.fix == 1) %>% filter(Acc == 1) %>% group_by(age, expect) %>% summarise(age.mean = mean(RT), age.med = median(RT)) %>% as.data.frame()
+
+noun.age.untrans.emmip <- emmip(rt.untrans.rgn1.age.m, expect ~ age.c, cov.reduce = range)
+
+noun.part.age.untrans.g <- ggplot() +
+  geom_point(data=age.rts.rgn1, aes(x=age, y=age.mean, group=expect, shape=expect), stat = "identity", position=position_dodge(width=.1), alpha=.3) +
+  geom_line(data=age.rts.rgn1, aes(x=age, y=age.mean, group=age), stat = "identity", alpha=.3) +
+  geom_line(data=noun.age.untrans.emmip$data, aes(x=age.c + mean(subj.age$age), y=yvar, group=expect, linetype=expect), stat="identity", size=1) +
+  scale_linetype_discrete(name="", labels=c("Expected", "Unexpected")) + 
+  scale_shape_manual(name="", labels=c("Expected", "Unexpected"), values=c(21, 19)) +
+  xlab("Participant Age") + ylab("RT on Noun (msec)") + theme_bw(base_size=12) + theme(legend.position="bottom", legend.text=element_text(size=10))
+noun.part.age.untrans.g
+ggsave(paste(directory,"delong maze noun RT given age.png",sep=""), dpi=300, height=70, width=190, units="mm")
+
+```
+
+
+Working with OG Code
+```{r}
+rt.s <- df_rt 
+
+rt.s$rgn.fix <- rt.s$WordNum - rt.s$pos + 1
+rt.s$word.num.z <- scale(rt.s$WordNum)
+rt.s$word.len <- nchar(as.character(rt.s$Word))
+rt.s$Altword.len <- nchar(as.character(rt.s$Alt))
+# simplying by using dummy/treatment coding instead of sum coding
+# 'expected' will be reference level
+#contrasts(rt.s$expect) <- c(-.5,.5)
+
+rt.s$item.expect <- paste(rt.s$item, rt.s$expect, sep=".")
+rt.s.filt <- rt.s[rt.s$Hash != "gyxidIf0fqXBM7nxg2K7SQ" & rt.s$Hash != "f8dC3CkleTBP9lUufzUOyQ",]
+
+rgn.rt.raw <- rt.s.filt %>%
+  filter(rgn.fix > -4 & rgn.fix < 5) %>%
+  filter(Acc == 1) %>%
+  group_by(rgn.fix, expect) %>%
+  summarize(n = n(), subj = length(unique(Hash)), rt = mean(RT), 
+            sd = sd(RT), stderr = sd / sqrt(subj)) %>%
+  as.data.frame()
+rgn.rt.raw$rgn <- as.factor(recode(rgn.rt.raw$rgn.fix, "-3"="CW-3", "-2"="CW-2", "-1"="CW-1", "0"="art", "1"="n","2"="CW+1", "3"="CW+2", "4"="CW+3"))
+rgn.rt.raw$rgn <- ordered(rgn.rt.raw$rgn, levels = c("CW-3", "CW-2", "CW-1", "art", "n", "CW+1", "CW+2", "CW+3"))
+
+
+rt.s.filt |> 
+  filter(rgn.fix == 0) |> 
+  group_by(Hash, expect) |> 
+  summarize(RT = mean(RT, na.rm = TRUE)) |> 
+  group_by(expect) |> 
+  summarize(RT = mean(RT, na.rm = TRUE)) |>
+  gt() |> 
+  fmt_number(decimals = 0)
+```
+
