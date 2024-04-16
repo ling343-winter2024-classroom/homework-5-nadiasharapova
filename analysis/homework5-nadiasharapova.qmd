@@ -39,6 +39,39 @@ df_all <- read.csv(here("data/delong maze 40Ss.csv"),
 
 ```
 
+
+## Codebook/Data Dictionary
+
+| Variable   | Meaning                                         |
+|------------|-------------------------------------------------|
+| Index      | Results Index                                   |
+| Time       | Time                                            |
+| Counter    | Counter                                         |
+| Owner      | Logged in as experiment owner? (if known)       |
+| Controller | Controller Name                                 |
+| Item       | Item Number                                     |
+| Element    | Element Number                                  |
+| Type       | Type                                            |
+| Group      | Group                                           |
+| FieldName  | Field name                                      |
+| Value      | Field Value                                     |
+| WordNum    | Word Number                                     |
+| Word       | Word                                            |
+| Alt        | Alternative                                     |
+| WordOn     | Word on(0=left, 1=right)                        |
+| CorrWord   | Correct                                         |
+| RT         | Reading time to first answer                    |
+| Sent       | Sentence                                        |
+| TotalTime  | Total Time to Correct Answer                    |
+| Question   | Question (NULL if none).                        |
+| Resp       | Answer                                          |
+| Acc        | Whether or not answer was correct (NULL if N/A) |
+| RespRT     | Time taken to answer                            |
+
+:  [**Maze Task Data Dictionary**]{.underline}
+
+
+
 ## How many rows of data remained after removing the trials as described in the "data analysis" section?
 
 For this step, I removed the data that was
@@ -72,38 +105,3 @@ num_participants <- df_rt %>%
 
 count(num_participants)
 ```
-
-## Codebook/Data Dictionary
-
-```{r}
-df_labels <- df_all %>% 
-  slice(1,)
-```
-
-| Variable   | Meaning                                         |
-|------------|-------------------------------------------------|
-| Index      | Results Index                                   |
-| Time       | Time                                            |
-| Counter    | Counter                                         |
-| Owner      | Logged in as experiment owner? (if known)       |
-| Controller | Controller Name                                 |
-| Item       | Item Number                                     |
-| Element    | Element Number                                  |
-| Type       | Type                                            |
-| Group      | Group                                           |
-| FieldName  | Field name                                      |
-| Value      | Field Value                                     |
-| WordNum    | Word Number                                     |
-| Word       | Word                                            |
-| Alt        | Alternative                                     |
-| WordOn     | Word on(0=left, 1=right)                        |
-| CorrWord   | Correct                                         |
-| RT         | Reading time to first answer                    |
-| Sent       | Sentence                                        |
-| TotalTime  | Total Time to Correct Answer                    |
-| Question   | Question (NULL if none).                        |
-| Resp       | Answer                                          |
-| Acc        | Whether or not answer was correct (NULL if N/A) |
-| RespRT     | Time taken to answer                            |
-
-:  [**Maze Task Data Dictionary**]{.underline}
