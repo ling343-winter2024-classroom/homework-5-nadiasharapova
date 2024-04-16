@@ -1,5 +1,5 @@
 ---
-title: "My Homework 5"
+title: "Homework 5: Maze Analysis"
 author: "Nadia Sharapova"
 format: 
   html:
@@ -9,9 +9,14 @@ editor_options:
   chunk_output_type: console
 ---
 
+##Prediction in the Maze
+
+##Codebook/Data Dictionary
+
+
 ## Introduction and Overview
   This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast and incremental processes. The study looked to support the theory that comprehenders predicted upcoming words and that predictive processes playa large role in language comprehension.
-  In the maze task, indivudals were presented with sentences like "The reporter had dinner yesterday with the baseball player who Kevin admired" along with a sequence of choices between two alternatives. for continuing the sentence. The two alternatives were either the correct continution of the sentence ora. Distractor that is anamolous given the sentence gonext or pseudowords. This study used an A-maze task to manipulate noun predictiablity and analyze how predicion occurs in the field of linguistics. 
+  In the maze task, individuals were presented with sentences like "The reporter had dinner yesterday with the baseball player who Kevin admired" along with a sequence of choices between two alternatives. for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics. 
   
   
 
@@ -28,18 +33,48 @@ library(kableExtra)
 
 ## Importing Data and Changing Directory for Analysis
 ```{r}
-#directory <- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"
-d <- read.csv(here("~/Ling 343/HW FR/homework-5-nadiasharapova/data/delong maze 40Ss.csv"), 
+#directory <- "/Users/nadiasharapova/Ling 343/HW FR/homework-5-nadiasharapova"
+here :: i_am ("analysis/homework5-nadiasharapova.qmd")
+library(here)
+df_all <- read.csv(here("data/delong maze 40Ss.csv"), 
               header = 0, sep = ",", comment.char = "#",strip.white = T,
               col.names = c("Index","Time","Counter","Hash","Owner","Controller","Item","Element","Type","Group","FieldName","Value","WordNum","Word","Alt","WordOn","CorrWord","RT","Sent","TotalTime","Question","Resp","Acc","RespRT"))
+
+```
+
+
+## How many rows of data remained after removing the trials as described in the "data analysis" section? 
+(inline code in text - discuss what kind of data you excluded!)
+```{r}
+df_rt <- df_all |> 
+  filter(Controller == "Maze" & !str_detect(Type, "prac")) |> 
+  select(1:10, 13:20) |> 
+  separate(col = Type, 
+           into = c("exp", "item", "expect", "position", "pos", 
+                    "cloze", "art.cloze", "n.cloze"), 
+           sep = "\\.", convert = TRUE, fill = "right") |> 
+  mutate(WordNum = as.numeric(WordNum),
+         Acc = as.numeric(as.character(recode(CorrWord, yes = "1", no = "0"))),
+         n.cloze.scale =  scale(n.cloze), 
+         art.cloze.scale = scale(art.cloze)) |> 
+  mutate(across(where(is.character), as.factor)) |> 
+  filter(item != 29) |> 
+  filter(Hash != "9dAvrH0+R6a0U5adPzZSyA")
+
+count(df_rt)
+```
+
+
+## How many participants do you have data for total 
+
+For this step, I wanted to calculate the number of participants for analysis in my dataset, considering that 1 is excluded due to coding errors.
+```{r}
+num_participants <- df_rt %>% 
+  count(Hash)
+
+count(num_participants)
 ```
 
 
 
-Methods/Tests
 
-Results
-
-Discussion
-
-Conclusions
