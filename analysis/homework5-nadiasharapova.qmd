@@ -9,9 +9,9 @@ editor_options:
   chunk_output_type: console
 ---
 
-##Prediction in the Maze
+## Prediction in the Maze
 
-##Codebook/Data Dictionary
+## Codebook/Data Dictionary
 
 
 ## Introduction and Overview
@@ -35,7 +35,8 @@ library(plotly)
 
 ## Importing Data and Changing Directory for Analysis
 ```{r}
-directory <- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"
+#directory <- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"
+setwd("/Users/nadiasharapova/Ling 343/HW FR/homework-5-nadiasharapova")
 here :: i_am ("analysis/homework5-nadiasharapova.qmd")
 library(here)
 
