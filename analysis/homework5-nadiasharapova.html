@@ -101,9 +101,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<p>Rubric 1. Introduction: hypo, predictions, ex sentences from stimuli, as markdown text 2. Code book/data dictionary that explaisn all og variables in imported data 3. how many participants do i have data for in total? 4. How many rows of data remained after removing the trials as described in the “data analysis” section? (inline code in text - discuss what kind of data you excluded!) 5. Print a table showing the mean, min, max, and standard deviation of participant ages. (as a table in the markdown, not as R output) Reproduce the figure in Figure 1. 6. Include a table showing the same results as in Figure 1 - you can skip the standard error numbers if that is too challenging.</p>
 <section id="introduction-and-overview-of-study" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-and-overview-of-study">Introduction and Overview of Study</h2>
-<p>This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast in incremental processes. The study looked to support the theory that predictive processes play a large role in language comprehension. In the maze task, individuals were presented with sentences like “The reporter had dinner yesterday with the baseball player who Kevin admired” along with a sequence of choices between two alternatives for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is either anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics.</p>
+<p>This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast in incremental processes. The study looked to support the theory that predictive processes play a large role in language comprehension.</p>
+<p>In the maze task, individuals were presented with sentences like “The reporter had dinner yesterday with the baseball player who Kevin admired” along with a sequence of choices between two alternatives for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is either anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics.</p>
 </section>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
@@ -136,9 +138,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>), </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">header =</span> <span class="dv">0</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>,<span class="at">strip.white =</span> T,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>,<span class="st">"Time"</span>,<span class="st">"Counter"</span>,<span class="st">"Hash"</span>,<span class="st">"Owner"</span>,<span class="st">"Controller"</span>,<span class="st">"Item"</span>,<span class="st">"Element"</span>,<span class="st">"Type"</span>,<span class="st">"Group"</span>,<span class="st">"FieldName"</span>,<span class="st">"Value"</span>,<span class="st">"WordNum"</span>,<span class="st">"Word"</span>,<span class="st">"Alt"</span>,<span class="st">"WordOn"</span>,<span class="st">"CorrWord"</span>,<span class="st">"RT"</span>,<span class="st">"Sent"</span>,<span class="st">"TotalTime"</span>,<span class="st">"Question"</span>,<span class="st">"Resp"</span>,<span class="st">"Acc"</span>,<span class="st">"RespRT"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>, <span class="at">strip.white =</span> T,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>, <span class="st">"Time"</span>, <span class="st">"Counter"</span>, <span class="st">"Hash"</span>, <span class="st">"Owner"</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Controller"</span>, <span class="st">"Item"</span>, <span class="st">"Element"</span>, <span class="st">"Type"</span>, <span class="st">"Group"</span>, </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FieldName"</span>, <span class="st">"Value"</span>, <span class="st">"WordNum"</span>, <span class="st">"Word"</span>, <span class="st">"Alt"</span>, </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"WordOn"</span>, <span class="st">"CorrWord"</span>, <span class="st">"RT"</span>, <span class="st">"Sent"</span>, <span class="st">"TotalTime"</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Question"</span>, <span class="st">"Resp"</span>, <span class="st">"Acc"</span>, <span class="st">"RespRT"</span>))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -166,110 +175,141 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Counter</td>
 </tr>
 <tr class="even">
+<td>Hash</td>
+<td>Hash</td>
+</tr>
+<tr class="odd">
 <td>Owner</td>
 <td>Logged&nbsp;in&nbsp;as&nbsp;experiment&nbsp;owner?&nbsp;(if&nbsp;known)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Controller</td>
 <td>Controller Name</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Item</td>
 <td>Item Number</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Element</td>
 <td>Element Number</td>
 </tr>
+<tr class="odd">
+<td>Type</td>
+<td>Type</td>
+</tr>
 <tr class="even">
-<td>Type</td>
-<td>Type</td>
+<td>Group</td>
+<td>Group</td>
 </tr>
 <tr class="odd">
-<td>Group</td>
-<td>Group</td>
-</tr>
-<tr class="even">
 <td>FieldName</td>
 <td>Field name</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Value</td>
 <td>Field Value</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>WordNum</td>
 <td>Word Number</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Word</td>
 <td>Word</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Alt</td>
 <td>Alternative</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>WordOn</td>
 <td>Word on(0=left, 1=right)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>CorrWord</td>
 <td>Correct</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>RT</td>
 <td>Reading&nbsp;time&nbsp;to&nbsp;first&nbsp;answer</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Sent</td>
 <td>Sentence</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>TotalTime</td>
 <td>Total Time to Correct Answer</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Question</td>
 <td>Question&nbsp;(NULL&nbsp;if&nbsp;none).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Resp</td>
 <td>Answer</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Acc</td>
 <td>Whether or not answer was correct (NULL if N/A)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>RespRT</td>
 <td>Time taken to answer</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="how-many-rows-of-data-remained-after-removing-the-trials-as-described-in-the-data-analysis-section" class="level2">
-<h2 class="anchored" data-anchor-id="how-many-rows-of-data-remained-after-removing-the-trials-as-described-in-the-data-analysis-section">How many rows of data remained after removing the trials as described in the “data analysis” section?</h2>
-<p>For this step, I removed the data that was</p>
+<section id="how-many-participants-do-you-have-data-for-in-total" class="level2">
+<h2 class="anchored" data-anchor-id="how-many-participants-do-you-have-data-for-in-total">How many participants do you have data for in total?</h2>
+<p>For this step, I wanted to calculate the number of participants that I had data for. In the study, there were initially 40 participants, however one participant’s results didn’t transfer so there were only 39 for initial analysis. I also screened out the tenth row to remove the first row, which just had the label for my column “hash.”</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_rt <span class="ot">&lt;-</span> df_all <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Controller <span class="sc">==</span> <span class="st">"Maze"</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">str_detect</span>(Type, <span class="st">"prac"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">13</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> Type, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"exp"</span>, <span class="st">"item"</span>, <span class="st">"expect"</span>, <span class="st">"position"</span>, <span class="st">"pos"</span>, </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"cloze"</span>, <span class="st">"art.cloze"</span>, <span class="st">"n.cloze"</span>), </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>, <span class="at">fill =</span> <span class="st">"right"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">WordNum =</span> <span class="fu">as.numeric</span>(WordNum),</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">Acc =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(CorrWord, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>))),</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">n.cloze.scale =</span>  <span class="fu">scale</span>(n.cloze), </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">art.cloze.scale =</span> <span class="fu">scale</span>(art.cloze)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item <span class="sc">!=</span> <span class="dv">29</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Hash <span class="sc">!=</span> <span class="st">"9dAvrH0+R6a0U5adPzZSyA"</span>)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_rt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> num_participants <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">count</span>(Hash)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>num_participants <span class="ot">&lt;-</span> num_participants[<span class="sc">-</span><span class="dv">10</span>,]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(num_participants)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   n
+1 38</code></pre>
+</div>
+</div>
+</section>
+<section id="how-many-rows-of-data-remained-after-removing-the-trials-as-described-in-the-data-analysis-section" class="level2">
+<h2 class="anchored" data-anchor-id="how-many-rows-of-data-remained-after-removing-the-trials-as-described-in-the-data-analysis-section">How many rows of data remained after removing the trials as described in the “data analysis” section?</h2>
+<p>For this step, item 29 was removed as there was a coding error. This left 67526 rows after removing the trials described in the data analysis section.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>),</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>, <span class="at">strip.white =</span> T,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>, <span class="st">"Time"</span>, <span class="st">"Counter"</span>, <span class="st">"Hash"</span>, <span class="st">"Owner"</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Controller"</span>, <span class="st">"Item"</span>, <span class="st">"Element"</span>, <span class="st">"Type"</span>, <span class="st">"Group"</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FieldName"</span>, <span class="st">"Value"</span>, <span class="st">"WordNum"</span>, <span class="st">"Word"</span>, <span class="st">"Alt"</span>, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"WordOn"</span>, <span class="st">"CorrWord"</span>, <span class="st">"RT"</span>, <span class="st">"Sent"</span>, <span class="st">"TotalTime"</span>, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Question"</span>, <span class="st">"Resp"</span>, <span class="st">"Acc"</span>, <span class="st">"RespRT"</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>df_rt <span class="ot">&lt;-</span> df_all <span class="sc">|&gt;</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Controller <span class="sc">==</span> <span class="st">"Maze"</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">str_detect</span>(Type, <span class="st">"prac"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">13</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> Type, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"exp"</span>, <span class="st">"item"</span>, <span class="st">"expect"</span>, <span class="st">"position"</span>, <span class="st">"pos"</span>, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"cloze"</span>, <span class="st">"art.cloze"</span>, <span class="st">"n.cloze"</span>), </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>, <span class="at">fill =</span> <span class="st">"right"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">WordNum =</span> <span class="fu">as.numeric</span>(WordNum),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">Acc =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(CorrWord, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>))),</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">n.cloze.scale =</span>  <span class="fu">scale</span>(n.cloze), </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">art.cloze.scale =</span> <span class="fu">scale</span>(art.cloze)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item <span class="sc">!=</span> <span class="dv">29</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Hash <span class="sc">!=</span> <span class="st">"9dAvrH0+R6a0U5adPzZSyA"</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_rt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>      n
@@ -277,22 +317,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="how-many-participants-do-you-have-data-for-in-total" class="level2">
-<h2 class="anchored" data-anchor-id="how-many-participants-do-you-have-data-for-in-total">How many participants do you have data for in total?</h2>
-<p>For this step, I wanted to calculate the number of participants for analysis in my dataset, considering that 1 is excluded due to coding errors.</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>num_participants <span class="ot">&lt;-</span> df_rt <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Hash)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(num_participants)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>   n
-1 38</code></pre>
-</div>
-</div>
+<section id="table-showing-the-mean-min-max-and-standard-deviation-of-participant-ages." class="level2">
+<h2 class="anchored" data-anchor-id="table-showing-the-mean-min-max-and-standard-deviation-of-participant-ages.">Table showing the mean, min, max, and standard deviation of participant ages.</h2>
 <!-- -->
 
 </section>
@@ -593,103 +619,134 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction and Overview of Study</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast in incremental processes. The study looked to support the theory that predictive processes play a large role in language comprehension. In the maze task, individuals were presented with sentences like "The reporter had dinner yesterday with the baseball player who Kevin admired" along with a sequence of choices between two alternatives for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is either anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics.</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setup</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message= FALSE, warning=FALSE}</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## Importing Data and Changing Directory for Analysis</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="co">#directory &lt;- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>here <span class="sc">::</span> <span class="fu">i_am</span> (<span class="st">"analysis/homework5-nadiasharapova.qmd"</span>)</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>Rubric</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Introduction: hypo, predictions, ex sentences from stimuli, as markdown text</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Code book/data dictionary that explaisn all og variables in imported data</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>how many participants do i have data for in total?</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>How many rows of data remained after removing the trials as described in the "data analysis" section? (inline code in text - discuss what kind of data you excluded!)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Print a table showing the mean, min, max, and standard deviation of participant ages. (as a table in the markdown, not as R output)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>Reproduce the figure in Figure 1.</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Include a table showing the same results as in Figure 1 - you can skip the standard error numbers if that is too challenging. </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction and Overview of Study</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast in incremental processes. The study looked to support the theory that predictive processes play a large role in language comprehension.</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>In the maze task, individuals were presented with sentences like "The reporter had dinner yesterday with the baseball player who Kevin admired" along with a sequence of choices between two alternatives for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is either anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics.</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setup</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message= FALSE, warning=FALSE}</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>), </span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>              <span class="at">header =</span> <span class="dv">0</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>,<span class="at">strip.white =</span> T,</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>              <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>,<span class="st">"Time"</span>,<span class="st">"Counter"</span>,<span class="st">"Hash"</span>,<span class="st">"Owner"</span>,<span class="st">"Controller"</span>,<span class="st">"Item"</span>,<span class="st">"Element"</span>,<span class="st">"Type"</span>,<span class="st">"Group"</span>,<span class="st">"FieldName"</span>,<span class="st">"Value"</span>,<span class="st">"WordNum"</span>,<span class="st">"Word"</span>,<span class="st">"Alt"</span>,<span class="st">"WordOn"</span>,<span class="st">"CorrWord"</span>,<span class="st">"RT"</span>,<span class="st">"Sent"</span>,<span class="st">"TotalTime"</span>,<span class="st">"Question"</span>,<span class="st">"Resp"</span>,<span class="st">"Acc"</span>,<span class="st">"RespRT"</span>))</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Codebook/Data Dictionary</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## Importing Data and Changing Directory for Analysis</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="co">#directory &lt;- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>here <span class="sc">::</span> <span class="fu">i_am</span> (<span class="st">"analysis/homework5-nadiasharapova.qmd"</span>)</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>| Variable   | Meaning                                         |</span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>|------------|-------------------------------------------------|</span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>| Index      | Results Index                                   |</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>| Time       | Time                                            |</span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>| Counter    | Counter                                         |</span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>| Owner      | Logged&nbsp;in&nbsp;as&nbsp;experiment&nbsp;owner?&nbsp;(if&nbsp;known)       |</span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>| Controller | Controller Name                                 |</span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>| Item       | Item Number                                     |</span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>| Element    | Element Number                                  |</span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>| Type       | Type                                            |</span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>| Group      | Group                                           |</span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>| FieldName  | Field name                                      |</span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>| Value      | Field Value                                     |</span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>| WordNum    | Word Number                                     |</span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>| Word       | Word                                            |</span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>| Alt        | Alternative                                     |</span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>| WordOn     | Word on(0=left, 1=right)                        |</span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>| CorrWord   | Correct                                         |</span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>| RT         | Reading&nbsp;time&nbsp;to&nbsp;first&nbsp;answer                    |</span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>| Sent       | Sentence                                        |</span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>| TotalTime  | Total Time to Correct Answer                    |</span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>| Question   | Question&nbsp;(NULL&nbsp;if&nbsp;none).                        |</span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>| Resp       | Answer                                          |</span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>| Acc        | Whether or not answer was correct (NULL if N/A) |</span>
-<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>| RespRT     | Time taken to answer                            |</span>
-<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>:  <span class="co">[</span><span class="ot">**Maze Task Data Dictionary**</span><span class="co">]</span>{.underline}</span>
-<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## How many rows of data remained after removing the trials as described in the "data analysis" section?</span></span>
-<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>For this step, I removed the data that was</span>
-<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>df_rt <span class="ot">&lt;-</span> df_all <span class="sc">|&gt;</span> </span>
-<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Controller <span class="sc">==</span> <span class="st">"Maze"</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">str_detect</span>(Type, <span class="st">"prac"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">13</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> Type, </span>
-<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"exp"</span>, <span class="st">"item"</span>, <span class="st">"expect"</span>, <span class="st">"position"</span>, <span class="st">"pos"</span>, </span>
-<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"cloze"</span>, <span class="st">"art.cloze"</span>, <span class="st">"n.cloze"</span>), </span>
-<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>, <span class="at">fill =</span> <span class="st">"right"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">WordNum =</span> <span class="fu">as.numeric</span>(WordNum),</span>
-<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a>         <span class="at">Acc =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(CorrWord, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>))),</span>
-<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a>         <span class="at">n.cloze.scale =</span>  <span class="fu">scale</span>(n.cloze), </span>
-<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a>         <span class="at">art.cloze.scale =</span> <span class="fu">scale</span>(art.cloze)) <span class="sc">|&gt;</span> </span>
-<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor)) <span class="sc">|&gt;</span> </span>
-<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item <span class="sc">!=</span> <span class="dv">29</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Hash <span class="sc">!=</span> <span class="st">"9dAvrH0+R6a0U5adPzZSyA"</span>)</span>
-<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_rt)</span>
-<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>),</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>, <span class="at">strip.white =</span> T,</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>, <span class="st">"Time"</span>, <span class="st">"Counter"</span>, <span class="st">"Hash"</span>, <span class="st">"Owner"</span>, </span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Controller"</span>, <span class="st">"Item"</span>, <span class="st">"Element"</span>, <span class="st">"Type"</span>, <span class="st">"Group"</span>, </span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FieldName"</span>, <span class="st">"Value"</span>, <span class="st">"WordNum"</span>, <span class="st">"Word"</span>, <span class="st">"Alt"</span>, </span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>                <span class="st">"WordOn"</span>, <span class="st">"CorrWord"</span>, <span class="st">"RT"</span>, <span class="st">"Sent"</span>, <span class="st">"TotalTime"</span>, </span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Question"</span>, <span class="st">"Resp"</span>, <span class="st">"Acc"</span>, <span class="st">"RespRT"</span>))</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> d</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Codebook/Data Dictionary</span></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>| Variable   | Meaning                                         |</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>|------------|-------------------------------------------------|</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>| Index      | Results Index                                   |</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>| Time       | Time                                            |</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>| Counter    | Counter                                         |</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>| Hash       | Hash                                            |</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>| Owner      | Logged&nbsp;in&nbsp;as&nbsp;experiment&nbsp;owner?&nbsp;(if&nbsp;known)       |</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>| Controller | Controller Name                                 |</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>| Item       | Item Number                                     |</span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>| Element    | Element Number                                  |</span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>| Type       | Type                                            |</span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>| Group      | Group                                           |</span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>| FieldName  | Field name                                      |</span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>| Value      | Field Value                                     |</span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>| WordNum    | Word Number                                     |</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>| Word       | Word                                            |</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>| Alt        | Alternative                                     |</span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>| WordOn     | Word on(0=left, 1=right)                        |</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>| CorrWord   | Correct                                         |</span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>| RT         | Reading&nbsp;time&nbsp;to&nbsp;first&nbsp;answer                    |</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>| Sent       | Sentence                                        |</span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>| TotalTime  | Total Time to Correct Answer                    |</span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a>| Question   | Question&nbsp;(NULL&nbsp;if&nbsp;none).                        |</span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>| Resp       | Answer                                          |</span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a>| Acc        | Whether or not answer was correct (NULL if N/A) |</span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>| RespRT     | Time taken to answer                            |</span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>: <span class="co">[</span><span class="ot">**Maze Task Data Dictionary**</span><span class="co">]</span>{.underline}</span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## How many participants do you have data for in total?</span></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a>For this step, I wanted to calculate the number of participants that I had data for. In the study, there were initially 40 participants, however one participant's results didn't transfer so there were only 39 for initial analysis. I also screened out the tenth row to remove the first row, which just had the label for my column "hash."</span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a> num_participants <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a>   <span class="fu">count</span>(Hash)</span>
 <span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="fu">## How many participants do you have data for in total?</span></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a>num_participants <span class="ot">&lt;-</span> num_participants[<span class="sc">-</span><span class="dv">10</span>,]</span>
 <span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a>For this step, I wanted to calculate the number of participants for analysis in my dataset, considering that 1 is excluded due to coding errors.</span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(num_participants)</span>
 <span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a>num_participants <span class="ot">&lt;-</span> df_rt <span class="sc">%&gt;%</span> </span>
-<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Hash)</span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## How many rows of data remained after removing the trials as described in the "data analysis" section?</span></span>
 <span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(num_participants)</span>
-<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a>For this step, item 29 was removed as there was a coding error. This left 67526 rows after removing the trials described in the data analysis section.</span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>),</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>, <span class="at">strip.white =</span> T,</span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>, <span class="st">"Time"</span>, <span class="st">"Counter"</span>, <span class="st">"Hash"</span>, <span class="st">"Owner"</span>, </span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Controller"</span>, <span class="st">"Item"</span>, <span class="st">"Element"</span>, <span class="st">"Type"</span>, <span class="st">"Group"</span>, </span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FieldName"</span>, <span class="st">"Value"</span>, <span class="st">"WordNum"</span>, <span class="st">"Word"</span>, <span class="st">"Alt"</span>, </span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a>                <span class="st">"WordOn"</span>, <span class="st">"CorrWord"</span>, <span class="st">"RT"</span>, <span class="st">"Sent"</span>, <span class="st">"TotalTime"</span>, </span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Question"</span>, <span class="st">"Resp"</span>, <span class="st">"Acc"</span>, <span class="st">"RespRT"</span>))</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a>df_rt <span class="ot">&lt;-</span> df_all <span class="sc">|&gt;</span> </span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Controller <span class="sc">==</span> <span class="st">"Maze"</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">str_detect</span>(Type, <span class="st">"prac"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">13</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> Type, </span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"exp"</span>, <span class="st">"item"</span>, <span class="st">"expect"</span>, <span class="st">"position"</span>, <span class="st">"pos"</span>, </span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"cloze"</span>, <span class="st">"art.cloze"</span>, <span class="st">"n.cloze"</span>), </span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>, <span class="at">fill =</span> <span class="st">"right"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">WordNum =</span> <span class="fu">as.numeric</span>(WordNum),</span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a>         <span class="at">Acc =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(CorrWord, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>))),</span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a>         <span class="at">n.cloze.scale =</span>  <span class="fu">scale</span>(n.cloze), </span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a>         <span class="at">art.cloze.scale =</span> <span class="fu">scale</span>(art.cloze)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item <span class="sc">!=</span> <span class="dv">29</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Hash <span class="sc">!=</span> <span class="st">"9dAvrH0+R6a0U5adPzZSyA"</span>)</span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_rt)</span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="fu">## Table showing the mean, min, max, and standard deviation of participant ages. </span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
