@@ -11,11 +11,12 @@ editor_options:
 
 ## Introduction and Overview of Study
 
-This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast in incremental processes. The study looked to support the theory that predictive processes play a large role in language comprehension.
+This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast in incremental processes. The study looked to support the theory that predictive processes play a large role in language comprehension. We hypothesized that participants would demonstrate differences in reaction times based on the expectation of encountering either "a" or "an" before a noun.
 
 In the maze task, individuals were presented with sentences like "The reporter had dinner yesterday with the baseball player who Kevin admired" along with a sequence of choices between two alternatives for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is either anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics.
 
 ## Setup
+The first step was setting up the necessary packages for analysis.
 
 ```{r message= FALSE, warning=FALSE}
 library(lme4)
@@ -30,7 +31,7 @@ library(here)
 ```
 
 ## Importing Data and Changing Directory for Analysis
-
+We then wanted to create a thorough understanding of the variables explored in this dataset. This data dictionary explains all of the variables that will be analyzed.
 ```{r}
 #directory <- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"
 here :: i_am ("analysis/homework5-nadiasharapova.qmd")
@@ -78,9 +79,9 @@ df_all <- d
 
 : [**Maze Task Data Dictionary**]{.underline}
 
-## How many participants do you have data for in total?
+## Number of Participants for Analysis
 
-For this step, I wanted to calculate the number of participants that I had data for. In the study, there were initially 40 participants, however one participant's results didn't transfer so there were only 39 for initial analysis. I also screened out the tenth row to remove the first row from the original data, which just had the label for my column "hash." This meant that there were 38 participants that I had data for that I could analyze.
+Our dataset has responses from a total of 38 recipients for analysis. For this step, I wanted to calculate the number of participants that I had data for. In the study, there were initially 40 participants, however one participant's results didn't transfer so there were only 39 for initial analysis. I also screened out the tenth row to remove the first row from the original data, which just had the label for my column "hash." This meant that there were 38 participants that I had data for that I could analyze.
 
 ```{r}
  num_participants <- d %>% 
@@ -92,9 +93,9 @@ count(num_participants)
 
 ```
 
-## How many rows of data remained after removing the trials as described in the "data analysis" section?
+## Procedure and Data Clean Up for Analysis
 
-For this step, item 29 was removed as there was a coding error. This left 67526 rows after removing the trials described in the data analysis section.
+Data analysis necessitated the removal of certain trials from our dataset to ensure the integrity and reliability of our findings. For this step, item 29 was removed as there was a coding error. This left 67526 rows after removing the trials described in the data analysis section.
 
 ```{r}
 df_all <- read.csv(here("data/delong maze 40Ss.csv"),
@@ -124,7 +125,8 @@ count(df_rt)
 
 ```
 
-## Table showing the mean, min, max, and standard deviation of participant ages.
+## Mean, min, max, and standard deviation of participant ages
+I wanted to understand the role of age in predictive analytics. I calculated summary statistics for participant ages, revealing key insights into the composition of this sample, including mean, minimum, maximum, and standard deviation of participant ages. This table shows that our participants varied widely in ages, between 18 and 17, with a mean age of 34.8. Understanding the age distribution of participants is crucial for understanding our findings as variations in reaction times/cognitive processes may be influenced by age-related factors.
 ```{r}
 demo <- d[d$Controller == "Form",1:12]
 names(demo) <- c("Subject","MD5","TrialType","Number","Element","Experiment","Item","Field","Response","X","field","resp")
@@ -147,7 +149,8 @@ print(age_summary_table)
 
 
 
-## Recreate Figure 1
+## Figure 1: Response times by region
+Figure 1 (below) shows the response times by expected answer. This figure shows the response time by Expectation, with RTs for the unexpected group being significantly slower on the noun and preceding article.
 ```{r}
 rt <- d[d$Controller == "Maze" & substr(d$Type,1,4) != "prac", c(1:10,13:20)]
 rt <- separate(data = rt, col = Type, into = c("exp", "item", "expect", "position", "pos", "cloze", "art.cloze", "n.cloze"), sep = "\\.", convert = TRUE, fill = "right")
@@ -189,7 +192,8 @@ ggplot(rgn.rt.raw, aes(x=rgn, y=rt, group=expect, shape=expect)) +
   theme_bw()
 ```
 
-7. Include a table showing the same results as in Figure 1 - you can skip the standard error numbers if that is too challenging. 
+## Table for Figure 1
+This table (below) summarizes the results found in figure 1 and shows more info on the response time by region. The presented table summarizes the key findings, providing a reference point for researchers interested in predictive linguistics.
 ```{r}
 summary_rgn <- rgn.rt.raw %>% 
   group_by(rgn, expect) %>% 
@@ -202,3 +206,6 @@ summary_rgn <- rgn.rt.raw %>%
 print(summary_rgn)
 ```
 
+
+##Conclusions and Key Takeaways
+Our study explored how people understand language, focusing on the "a/an" contrast in English. We found that when people expect to see a certain word, like "a" or "an," they react faster. This suggests that our brains use predictions to understand language more quickly. We also looked at how age might affect this process. While we found some differences, more research is needed to understand how age impacts language understanding.
