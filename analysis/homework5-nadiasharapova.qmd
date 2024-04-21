@@ -31,7 +31,6 @@ library(here)
 ```
 
 ## Importing Data and Changing Directory for Analysis
-We then wanted to create a thorough understanding of the variables explored in this dataset. This data dictionary explains all of the variables that will be analyzed.
 ```{r}
 #directory <- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"
 here :: i_am ("analysis/homework5-nadiasharapova.qmd")
@@ -49,6 +48,7 @@ df_all <- d
 ```
 
 ## Codebook/Data Dictionary
+We then wanted to create a thorough understanding of the variables explored in this dataset. This data dictionary explains all of the variables that will be analyzed.
 
 | Variable   | Meaning                                         |
 |------------|-------------------------------------------------|
