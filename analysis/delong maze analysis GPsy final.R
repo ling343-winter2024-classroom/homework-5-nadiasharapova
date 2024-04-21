@@ -23,6 +23,7 @@ demo <- d[d$Controller == "Form",1:12]
 names(demo) <- c("Subject","MD5","TrialType","Number","Element","Experiment","Item","Field","Response","X","field","resp")
 demo <- as.data.frame(lapply(demo, function (x) if (is.factor(x) | is.character(x)) factor(x) else x))
 
+
 resp <- d[d$Controller == "Question" & substr(d$Type,1,4) != "prac", c(1:10,21:24)]
 resp <- separate(data = resp, col = Type, into = c("exp", "item", "expect", "position", "pos", "cloze", "art.cloze", "n.cloze"), sep = "\\.", convert = TRUE, fill = "right")
 resp <- as.data.frame(lapply(resp, function (x) if (is.factor(x) | is.character(x)) factor(x) else x))
@@ -69,7 +70,7 @@ demo %>% filter(field == "age") %>% summarize(m.age = mean(as.numeric(as.charact
 
 ggplot(demo[demo$field == "age",], aes(x = as.numeric(as.character(resp)))) + geom_histogram()
 
-table(factor(demo[demo$field == "gender",]$resp))
+table(factor(demo[demo$field == "gender",]$resp)) 
 
 ###
 
