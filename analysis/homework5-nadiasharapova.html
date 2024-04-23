@@ -126,7 +126,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="importing-data-and-changing-directory-for-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="importing-data-and-changing-directory-for-analysis">Importing Data and Changing Directory for Analysis</h2>
-<p>We then wanted to create a thorough understanding of the variables explored in this dataset. This data dictionary explains all of the variables that will be analyzed.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -152,6 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="codebookdata-dictionary" class="level2">
 <h2 class="anchored" data-anchor-id="codebookdata-dictionary">Codebook/Data Dictionary</h2>
+<p>We then wanted to create a thorough understanding of the variables explored in this dataset. This data dictionary explains all of the variables that will be analyzed.</p>
 <table class="table">
 <caption><u><strong>Maze Task Data Dictionary</strong></u></caption>
 <thead>
@@ -775,24 +775,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Importing Data and Changing Directory for Analysis</span></span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>We then wanted to create a thorough understanding of the variables explored in this dataset. This data dictionary explains all of the variables that will be analyzed.</span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co">#directory &lt;- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"</span></span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>here <span class="sc">::</span> <span class="fu">i_am</span> (<span class="st">"analysis/homework5-nadiasharapova.qmd"</span>)</span>
-<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>),</span>
-<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>, <span class="at">strip.white =</span> T,</span>
-<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>, <span class="st">"Time"</span>, <span class="st">"Counter"</span>, <span class="st">"Hash"</span>, <span class="st">"Owner"</span>, </span>
-<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Controller"</span>, <span class="st">"Item"</span>, <span class="st">"Element"</span>, <span class="st">"Type"</span>, <span class="st">"Group"</span>, </span>
-<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FieldName"</span>, <span class="st">"Value"</span>, <span class="st">"WordNum"</span>, <span class="st">"Word"</span>, <span class="st">"Alt"</span>, </span>
-<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>                <span class="st">"WordOn"</span>, <span class="st">"CorrWord"</span>, <span class="st">"RT"</span>, <span class="st">"Sent"</span>, <span class="st">"TotalTime"</span>, </span>
-<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Question"</span>, <span class="st">"Resp"</span>, <span class="st">"Acc"</span>, <span class="st">"RespRT"</span>))</span>
-<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> d</span>
-<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a><span class="fu">## Codebook/Data Dictionary</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="co">#directory &lt;- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"</span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>here <span class="sc">::</span> <span class="fu">i_am</span> (<span class="st">"analysis/homework5-nadiasharapova.qmd"</span>)</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>),</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>, <span class="at">strip.white =</span> T,</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>, <span class="st">"Time"</span>, <span class="st">"Counter"</span>, <span class="st">"Hash"</span>, <span class="st">"Owner"</span>, </span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Controller"</span>, <span class="st">"Item"</span>, <span class="st">"Element"</span>, <span class="st">"Type"</span>, <span class="st">"Group"</span>, </span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FieldName"</span>, <span class="st">"Value"</span>, <span class="st">"WordNum"</span>, <span class="st">"Word"</span>, <span class="st">"Alt"</span>, </span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>                <span class="st">"WordOn"</span>, <span class="st">"CorrWord"</span>, <span class="st">"RT"</span>, <span class="st">"Sent"</span>, <span class="st">"TotalTime"</span>, </span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Question"</span>, <span class="st">"Resp"</span>, <span class="st">"Acc"</span>, <span class="st">"RespRT"</span>))</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> d</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="fu">## Codebook/Data Dictionary</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>We then wanted to create a thorough understanding of the variables explored in this dataset. This data dictionary explains all of the variables that will be analyzed.</span>
 <span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>| Variable   | Meaning                                         |</span>
 <span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>|------------|-------------------------------------------------|</span>
