@@ -16,6 +16,7 @@ This study examined how our brains interpret and predict what words are coming n
 In the maze task, individuals were presented with sentences like "The reporter had dinner yesterday with the baseball player who Kevin admired" along with a sequence of choices between two alternatives for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is either anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics.
 
 ## Setup
+
 The first step was setting up the necessary packages for analysis.
 
 ```{r message= FALSE, warning=FALSE}
@@ -31,6 +32,7 @@ library(here)
 ```
 
 ## Importing Data and Changing Directory for Analysis
+
 ```{r}
 #directory <- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"
 here :: i_am ("analysis/homework5-nadiasharapova.qmd")
@@ -48,6 +50,7 @@ df_all <- d
 ```
 
 ## Codebook/Data Dictionary
+
 We then wanted to create a thorough understanding of the variables explored in this dataset. This data dictionary explains all of the variables that will be analyzed.
 
 | Variable   | Meaning                                         |
@@ -126,7 +129,9 @@ count(df_rt)
 ```
 
 ## Mean, min, max, and standard deviation of participant ages
+
 I wanted to understand the role of age in predictive analytics. I calculated summary statistics for participant ages, revealing key insights into the composition of this sample, including mean, minimum, maximum, and standard deviation of participant ages. This table shows that our participants varied widely in ages, between 18 and 17, with a mean age of 34.8. Understanding the age distribution of participants is crucial for understanding our findings as variations in reaction times/cognitive processes may be influenced by age-related factors.
+
 ```{r}
 demo <- d[d$Controller == "Form",1:12]
 names(demo) <- c("Subject","MD5","TrialType","Number","Element","Experiment","Item","Field","Response","X","field","resp")
@@ -147,10 +152,10 @@ age_summary_table <- knitr :: kable(age_summary_df, format= "markdown")
 print(age_summary_table)
 ```
 
-
-
 ## Figure 1: Response times by region
+
 Figure 1 (below) shows the response times by expected answer. This figure shows the response time by Expectation, with RTs for the unexpected group being significantly slower on the noun and preceding article.
+
 ```{r}
 rt <- d[d$Controller == "Maze" & substr(d$Type,1,4) != "prac", c(1:10,13:20)]
 rt <- separate(data = rt, col = Type, into = c("exp", "item", "expect", "position", "pos", "cloze", "art.cloze", "n.cloze"), sep = "\\.", convert = TRUE, fill = "right")
@@ -193,7 +198,9 @@ ggplot(rgn.rt.raw, aes(x=rgn, y=rt, group=expect, shape=expect)) +
 ```
 
 ## Table for Figure 1
+
 This table (below) summarizes the results found in figure 1 and shows more info on the response time by region. The presented table summarizes the key findings, providing a reference point for researchers interested in predictive linguistics.
+
 ```{r}
 summary_rgn <- rgn.rt.raw %>% 
   group_by(rgn, expect) %>% 
@@ -206,6 +213,6 @@ summary_rgn <- rgn.rt.raw %>%
 print(summary_rgn)
 ```
 
+## Conclusions and Key Takeaways
 
-##Conclusions and Key Takeaways
 Our study explored how people understand language, focusing on the "a/an" contrast in English. We found that when people expect to see a certain word, like "a" or "an," they react faster. This suggests that our brains use predictions to understand language more quickly. We also looked at how age might affect this process. While we found some differences, more research is needed to understand how age impacts language understanding.
