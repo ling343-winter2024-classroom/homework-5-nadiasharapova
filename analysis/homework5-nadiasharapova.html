@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nadia Sharapova">
+
+<title>Homework 5: Maze Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="homework5-nadiasharapova_files/libs/clipboard/clipboard.min.js"></script>
+<script src="homework5-nadiasharapova_files/libs/quarto-html/quarto.js"></script>
+<script src="homework5-nadiasharapova_files/libs/quarto-html/popper.min.js"></script>
+<script src="homework5-nadiasharapova_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="homework5-nadiasharapova_files/libs/quarto-html/anchor.min.js"></script>
+<link href="homework5-nadiasharapova_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="homework5-nadiasharapova_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="homework5-nadiasharapova_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="homework5-nadiasharapova_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="homework5-nadiasharapova_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Homework 5: Maze Analysis</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nadia Sharapova </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction-and-overview-of-study" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-and-overview-of-study">Introduction and Overview of Study</h2>
+<p>This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast in incremental processes. The study looked to support the theory that predictive processes play a large role in language comprehension. We hypothesized that participants would demonstrate differences in reaction times based on the expectation of encountering either “a” or “an” before a noun.</p>
+<p>In the maze task, individuals were presented with sentences like “The reporter had dinner yesterday with the baseball player who Kevin admired” along with a sequence of choices between two alternatives for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is either anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics.</p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>The first step was setting up the necessary packages for analysis.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="importing-data-and-changing-directory-for-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="importing-data-and-changing-directory-for-analysis">Importing Data and Changing Directory for Analysis</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#directory &lt;- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>here <span class="sc">::</span> <span class="fu">i_am</span> (<span class="st">"analysis/homework5-nadiasharapova.qmd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/nadiasharapova/Ling 343/HW FR/homework-5-nadiasharapova</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>),</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>, <span class="at">strip.white =</span> T,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>, <span class="st">"Time"</span>, <span class="st">"Counter"</span>, <span class="st">"Hash"</span>, <span class="st">"Owner"</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Controller"</span>, <span class="st">"Item"</span>, <span class="st">"Element"</span>, <span class="st">"Type"</span>, <span class="st">"Group"</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FieldName"</span>, <span class="st">"Value"</span>, <span class="st">"WordNum"</span>, <span class="st">"Word"</span>, <span class="st">"Alt"</span>, </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"WordOn"</span>, <span class="st">"CorrWord"</span>, <span class="st">"RT"</span>, <span class="st">"Sent"</span>, <span class="st">"TotalTime"</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Question"</span>, <span class="st">"Resp"</span>, <span class="st">"Acc"</span>, <span class="st">"RespRT"</span>))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="codebookdata-dictionary" class="level2">
+<h2 class="anchored" data-anchor-id="codebookdata-dictionary">Codebook/Data Dictionary</h2>
+<p>We then wanted to create a thorough understanding of the variables explored in this dataset. This data dictionary explains all of the variables that will be analyzed.</p>
+<table class="table">
+<caption><u><strong>Maze Task Data Dictionary</strong></u></caption>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Index</td>
+<td>Results Index</td>
+</tr>
+<tr class="even">
+<td>Time</td>
+<td>Time</td>
+</tr>
+<tr class="odd">
+<td>Counter</td>
+<td>Counter</td>
+</tr>
+<tr class="even">
+<td>Hash</td>
+<td>Hash</td>
+</tr>
+<tr class="odd">
+<td>Owner</td>
+<td>Logged&nbsp;in&nbsp;as&nbsp;experiment&nbsp;owner?&nbsp;(if&nbsp;known)</td>
+</tr>
+<tr class="even">
+<td>Controller</td>
+<td>Controller Name</td>
+</tr>
+<tr class="odd">
+<td>Item</td>
+<td>Item Number</td>
+</tr>
+<tr class="even">
+<td>Element</td>
+<td>Element Number</td>
+</tr>
+<tr class="odd">
+<td>Type</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>Group</td>
+<td>Group</td>
+</tr>
+<tr class="odd">
+<td>FieldName</td>
+<td>Field name</td>
+</tr>
+<tr class="even">
+<td>Value</td>
+<td>Field Value</td>
+</tr>
+<tr class="odd">
+<td>WordNum</td>
+<td>Word Number</td>
+</tr>
+<tr class="even">
+<td>Word</td>
+<td>Word</td>
+</tr>
+<tr class="odd">
+<td>Alt</td>
+<td>Alternative</td>
+</tr>
+<tr class="even">
+<td>WordOn</td>
+<td>Word on(0=left, 1=right)</td>
+</tr>
+<tr class="odd">
+<td>CorrWord</td>
+<td>Correct</td>
+</tr>
+<tr class="even">
+<td>RT</td>
+<td>Reading&nbsp;time&nbsp;to&nbsp;first&nbsp;answer</td>
+</tr>
+<tr class="odd">
+<td>Sent</td>
+<td>Sentence</td>
+</tr>
+<tr class="even">
+<td>TotalTime</td>
+<td>Total Time to Correct Answer</td>
+</tr>
+<tr class="odd">
+<td>Question</td>
+<td>Question&nbsp;(NULL&nbsp;if&nbsp;none).</td>
+</tr>
+<tr class="even">
+<td>Resp</td>
+<td>Answer</td>
+</tr>
+<tr class="odd">
+<td>Acc</td>
+<td>Whether or not answer was correct (NULL if N/A)</td>
+</tr>
+<tr class="even">
+<td>RespRT</td>
+<td>Time taken to answer</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="number-of-participants-for-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="number-of-participants-for-analysis">Number of Participants for Analysis</h2>
+<p>Our dataset has responses from a total of 38 recipients for analysis. For this step, I wanted to calculate the number of participants that I had data for. In the study, there were initially 40 participants, however one participant’s results didn’t transfer so there were only 39 for initial analysis. I also screened out the tenth row to remove the first row from the original data, which just had the label for my column “hash.” This meant that there were 38 participants that I had data for that I could analyze.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> num_participants <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">count</span>(Hash)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>num_participants <span class="ot">&lt;-</span> num_participants[<span class="sc">-</span><span class="dv">10</span>,]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(num_participants)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   n
+1 38</code></pre>
+</div>
+</div>
+</section>
+<section id="procedure-and-data-clean-up-for-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="procedure-and-data-clean-up-for-analysis">Procedure and Data Clean Up for Analysis</h2>
+<p>Data analysis necessitated the removal of certain trials from our dataset to ensure the integrity and reliability of our findings. For this step, item 29 was removed as there was a coding error. This left 67526 rows after removing the trials described in the data analysis section.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>),</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>, <span class="at">strip.white =</span> T,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>, <span class="st">"Time"</span>, <span class="st">"Counter"</span>, <span class="st">"Hash"</span>, <span class="st">"Owner"</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Controller"</span>, <span class="st">"Item"</span>, <span class="st">"Element"</span>, <span class="st">"Type"</span>, <span class="st">"Group"</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FieldName"</span>, <span class="st">"Value"</span>, <span class="st">"WordNum"</span>, <span class="st">"Word"</span>, <span class="st">"Alt"</span>, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"WordOn"</span>, <span class="st">"CorrWord"</span>, <span class="st">"RT"</span>, <span class="st">"Sent"</span>, <span class="st">"TotalTime"</span>, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Question"</span>, <span class="st">"Resp"</span>, <span class="st">"Acc"</span>, <span class="st">"RespRT"</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>df_rt <span class="ot">&lt;-</span> df_all <span class="sc">|&gt;</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Controller <span class="sc">==</span> <span class="st">"Maze"</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">str_detect</span>(Type, <span class="st">"prac"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">13</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> Type, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"exp"</span>, <span class="st">"item"</span>, <span class="st">"expect"</span>, <span class="st">"position"</span>, <span class="st">"pos"</span>, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"cloze"</span>, <span class="st">"art.cloze"</span>, <span class="st">"n.cloze"</span>), </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>, <span class="at">fill =</span> <span class="st">"right"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">WordNum =</span> <span class="fu">as.numeric</span>(WordNum),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">Acc =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(CorrWord, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>))),</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">n.cloze.scale =</span>  <span class="fu">scale</span>(n.cloze), </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">art.cloze.scale =</span> <span class="fu">scale</span>(art.cloze)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item <span class="sc">!=</span> <span class="dv">29</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Hash <span class="sc">!=</span> <span class="st">"9dAvrH0+R6a0U5adPzZSyA"</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_rt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      n
+1 67526</code></pre>
+</div>
+</div>
+</section>
+<section id="mean-min-max-and-standard-deviation-of-participant-ages" class="level2">
+<h2 class="anchored" data-anchor-id="mean-min-max-and-standard-deviation-of-participant-ages">Mean, min, max, and standard deviation of participant ages</h2>
+<p>I wanted to understand the role of age in predictive analytics. I calculated summary statistics for participant ages, revealing key insights into the composition of this sample, including mean, minimum, maximum, and standard deviation of participant ages. This table shows that our participants varied widely in ages, between 18 and 17, with a mean age of 34.8. Understanding the age distribution of participants is crucial for understanding our findings as variations in reaction times/cognitive processes may be influenced by age-related factors.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>demo <span class="ot">&lt;-</span> d[d<span class="sc">$</span>Controller <span class="sc">==</span> <span class="st">"Form"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(demo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Subject"</span>,<span class="st">"MD5"</span>,<span class="st">"TrialType"</span>,<span class="st">"Number"</span>,<span class="st">"Element"</span>,<span class="st">"Experiment"</span>,<span class="st">"Item"</span>,<span class="st">"Field"</span>,<span class="st">"Response"</span>,<span class="st">"X"</span>,<span class="st">"field"</span>,<span class="st">"resp"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(demo, <span class="cf">function</span> (x) <span class="cf">if</span> (<span class="fu">is.factor</span>(x) <span class="sc">|</span> <span class="fu">is.character</span>(x)) <span class="fu">factor</span>(x) <span class="cf">else</span> x))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>age_summary <span class="ot">&lt;-</span> demo <span class="sc">%&gt;%</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(field <span class="sc">==</span> <span class="st">"age"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">m.age =</span> <span class="fu">mean</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp))), </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">min.age =</span> <span class="fu">min</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp))), </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">max.age =</span> <span class="fu">max</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp))),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">sd.age =</span> <span class="fu">sd</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp))))</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>age_summary_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(age_summary)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>age_summary_table <span class="ot">&lt;-</span> knitr <span class="sc">::</span> <span class="fu">kable</span>(age_summary_df, <span class="at">format=</span> <span class="st">"markdown"</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(age_summary_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+|    m.age| min.age| max.age|   sd.age|
+|--------:|-------:|-------:|--------:|
+| 34.87179|      18|      71| 14.08093|</code></pre>
+</div>
+</div>
+</section>
+<section id="figure-1-response-times-by-region" class="level2">
+<h2 class="anchored" data-anchor-id="figure-1-response-times-by-region">Figure 1: Response times by region</h2>
+<p>Figure 1 (below) shows the response times by expected answer. This figure shows the response time by Expectation, with RTs for the unexpected group being significantly slower on the noun and preceding article.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rt <span class="ot">&lt;-</span> d[d<span class="sc">$</span>Controller <span class="sc">==</span> <span class="st">"Maze"</span> <span class="sc">&amp;</span> <span class="fu">substr</span>(d<span class="sc">$</span>Type,<span class="dv">1</span>,<span class="dv">4</span>) <span class="sc">!=</span> <span class="st">"prac"</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">13</span><span class="sc">:</span><span class="dv">20</span>)]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>rt <span class="ot">&lt;-</span> <span class="fu">separate</span>(<span class="at">data =</span> rt, <span class="at">col =</span> Type, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"exp"</span>, <span class="st">"item"</span>, <span class="st">"expect"</span>, <span class="st">"position"</span>, <span class="st">"pos"</span>, <span class="st">"cloze"</span>, <span class="st">"art.cloze"</span>, <span class="st">"n.cloze"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>, <span class="at">fill =</span> <span class="st">"right"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>rt <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(rt, <span class="cf">function</span> (x) <span class="cf">if</span> (<span class="fu">is.factor</span>(x) <span class="sc">|</span> <span class="fu">is.character</span>(x)) <span class="fu">factor</span>(x) <span class="cf">else</span> x))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>WordNum <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(rt<span class="sc">$</span>WordNum))</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>RT <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(rt<span class="sc">$</span>RT))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>TotalTime <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(rt<span class="sc">$</span>TotalTime))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>Acc <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(rt<span class="sc">$</span>CorrWord, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>)))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>n.cloze.scale <span class="ot">&lt;-</span> <span class="fu">scale</span>(rt<span class="sc">$</span>n.cloze)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>art.cloze.scale <span class="ot">&lt;-</span> <span class="fu">scale</span>(rt<span class="sc">$</span>art.cloze)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>rt.s <span class="ot">&lt;-</span> rt[rt<span class="sc">$</span>Hash <span class="sc">!=</span> <span class="st">'9dAvrH0+R6a0U5adPzZSyA'</span>,]</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>rt.s<span class="sc">$</span>rgn.fix <span class="ot">&lt;-</span> rt.s<span class="sc">$</span>WordNum <span class="sc">-</span> rt.s<span class="sc">$</span>pos <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>rt.s<span class="sc">$</span>word.num.z <span class="ot">&lt;-</span> <span class="fu">scale</span>(rt.s<span class="sc">$</span>WordNum)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>rt.s<span class="sc">$</span>word.len <span class="ot">&lt;-</span> <span class="fu">nchar</span>(<span class="fu">as.character</span>(rt.s<span class="sc">$</span>Word))</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>rt.s<span class="sc">$</span>Altword.len <span class="ot">&lt;-</span> <span class="fu">nchar</span>(<span class="fu">as.character</span>(rt.s<span class="sc">$</span>Alt))</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(rt.s<span class="sc">$</span>expect) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">5</span>,.<span class="dv">5</span>)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>rt.s<span class="sc">$</span>item.expect <span class="ot">&lt;-</span> <span class="fu">paste</span>(rt.s<span class="sc">$</span>item, rt.s<span class="sc">$</span>expect, <span class="at">sep=</span><span class="st">"."</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>delong.items <span class="ot">&lt;-</span> rt.s <span class="sc">%&gt;%</span> <span class="fu">filter</span>(rgn.fix <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(item.expect, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Response accuracy</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>rt.s.filt <span class="ot">&lt;-</span> rt.s[rt.s<span class="sc">$</span>Hash <span class="sc">!=</span> <span class="st">"gyxidIf0fqXBM7nxg2K7SQ"</span> <span class="sc">&amp;</span> rt.s<span class="sc">$</span>Hash <span class="sc">!=</span> <span class="st">"f8dC3CkleTBP9lUufzUOyQ"</span>,]</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>rt.s.rgn <span class="ot">&lt;-</span> rt.s.filt <span class="sc">%&gt;%</span> <span class="fu">filter</span>(rgn.fix <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">4</span> <span class="sc">&amp;</span> rgn.fix <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Acc <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>()</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>rgn.rt.raw <span class="ot">&lt;-</span> rt.s.filt <span class="sc">%&gt;%</span> <span class="fu">filter</span>(rgn.fix <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">4</span> <span class="sc">&amp;</span> rgn.fix <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Acc <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(rgn.fix, expect) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>(), <span class="at">subj=</span><span class="fu">length</span>(<span class="fu">unique</span>(Hash)), <span class="at">rt=</span><span class="fu">mean</span>(RT), <span class="at">sd=</span><span class="fu">sd</span>(RT), <span class="at">stderr=</span>sd<span class="sc">/</span><span class="fu">sqrt</span>(subj)) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'rgn.fix'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rgn.rt.raw<span class="sc">$</span>rgn <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">recode</span>(rgn.rt.raw<span class="sc">$</span>rgn.fix, <span class="st">"-3"</span><span class="ot">=</span><span class="st">"CW-3"</span>, <span class="st">"-2"</span><span class="ot">=</span><span class="st">"CW-2"</span>, <span class="st">"-1"</span><span class="ot">=</span><span class="st">"CW-1"</span>, <span class="st">"0"</span><span class="ot">=</span><span class="st">"art"</span>, <span class="st">"1"</span><span class="ot">=</span><span class="st">"n"</span>,<span class="st">"2"</span><span class="ot">=</span><span class="st">"CW+1"</span>, <span class="st">"3"</span><span class="ot">=</span><span class="st">"CW+2"</span>, <span class="st">"4"</span><span class="ot">=</span><span class="st">"CW+3"</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>rgn.rt.raw<span class="sc">$</span>rgn <span class="ot">&lt;-</span> <span class="fu">ordered</span>(rgn.rt.raw<span class="sc">$</span>rgn, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CW-3"</span>, <span class="st">"CW-2"</span>, <span class="st">"CW-1"</span>, <span class="st">"art"</span>, <span class="st">"n"</span>, <span class="st">"CW+1"</span>, <span class="st">"CW+2"</span>, <span class="st">"CW+3"</span>))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rgn.rt.raw, <span class="fu">aes</span>(<span class="at">x=</span>rgn, <span class="at">y=</span>rt, <span class="at">group=</span>expect, <span class="at">shape=</span>expect)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span>.<span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span>.<span class="dv">3</span>), <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> rt<span class="sc">-</span>stderr, <span class="at">ymax =</span> rt<span class="sc">+</span>stderr), <span class="at">width=</span>.<span class="dv">15</span>, <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span>.<span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">""</span>, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Expected"</span>, <span class="st">"Unexpected"</span>), <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">19</span>)) <span class="sc">+</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Word"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Reading Time (msec)"</span>) <span class="sc">+</span> </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="homework5-nadiasharapova_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="table-for-figure-1" class="level2">
+<h2 class="anchored" data-anchor-id="table-for-figure-1">Table for Figure 1</h2>
+<p>This table (below) summarizes the results found in figure 1 and shows more info on the response time by region. The presented table summarizes the key findings, providing a reference point for researchers interested in predictive linguistics.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>summary_rgn <span class="ot">&lt;-</span> rgn.rt.raw <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rgn, expect) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_RT=</span> <span class="fu">mean</span>(rt),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min_RT=</span> <span class="fu">min</span>(rt),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max_RT=</span><span class="fu">max</span>(rt)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'rgn'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summary_rgn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 5
+# Groups:   rgn [8]
+   rgn   expect     Mean_RT Min_RT Max_RT
+   &lt;ord&gt; &lt;fct&gt;        &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1 CW-3  expected      759.   759.   759.
+ 2 CW-3  unexpected    758.   758.   758.
+ 3 CW-2  expected      732.   732.   732.
+ 4 CW-2  unexpected    742.   742.   742.
+ 5 CW-1  expected      761.   761.   761.
+ 6 CW-1  unexpected    752.   752.   752.
+ 7 art   expected      676.   676.   676.
+ 8 art   unexpected    722.   722.   722.
+ 9 n     expected      704.   704.   704.
+10 n     unexpected   1058.  1058.  1058.
+11 CW+1  expected      779.   779.   779.
+12 CW+1  unexpected    858.   858.   858.
+13 CW+2  expected      784.   784.   784.
+14 CW+2  unexpected    792.   792.   792.
+15 CW+3  expected      766.   766.   766.
+16 CW+3  unexpected    788.   788.   788.</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusions-and-key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions-and-key-takeaways">Conclusions and Key Takeaways</h2>
+<p>Our study explored how people understand language, focusing on the “a/an” contrast in English. We found that when people expect to see a certain word, like “a” or “an,” they react faster. This suggests that our brains use predictions to understand language more quickly. We also looked at how age might affect this process. While we found some differences, more research is needed to understand how age impacts language understanding.</p>
+<!-- -->
+
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Homework 5: Maze Analysis"</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Nadia Sharapova"</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction and Overview of Study</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>This study examined how our brains interpret and predict what words are coming next when we read or listen to someone speaking. The maze task was used to study how we anticipate words in a sentence by measuring a/an contrast in incremental processes. The study looked to support the theory that predictive processes play a large role in language comprehension. We hypothesized that participants would demonstrate differences in reaction times based on the expectation of encountering either "a" or "an" before a noun.</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>In the maze task, individuals were presented with sentences like "The reporter had dinner yesterday with the baseball player who Kevin admired" along with a sequence of choices between two alternatives for continuing the sentence. The two alternatives were either the correct continuation of the sentence or a Distractor that is either anomalous given the sentence context or pseudo words. This study used an A-maze task to manipulate noun predictability and analyze how prediction occurs in the field of linguistics.</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setup</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>The first step was setting up the necessary packages for analysis.</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message= FALSE, warning=FALSE}</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Importing Data and Changing Directory for Analysis</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="co">#directory &lt;- "C:\\Users\\cpgl0052\\Dropbox\\Research\\delong maze\\"</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>here <span class="sc">::</span> <span class="fu">i_am</span> (<span class="st">"analysis/homework5-nadiasharapova.qmd"</span>)</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>),</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>, <span class="at">strip.white =</span> T,</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>, <span class="st">"Time"</span>, <span class="st">"Counter"</span>, <span class="st">"Hash"</span>, <span class="st">"Owner"</span>, </span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Controller"</span>, <span class="st">"Item"</span>, <span class="st">"Element"</span>, <span class="st">"Type"</span>, <span class="st">"Group"</span>, </span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FieldName"</span>, <span class="st">"Value"</span>, <span class="st">"WordNum"</span>, <span class="st">"Word"</span>, <span class="st">"Alt"</span>, </span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>                <span class="st">"WordOn"</span>, <span class="st">"CorrWord"</span>, <span class="st">"RT"</span>, <span class="st">"Sent"</span>, <span class="st">"TotalTime"</span>, </span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Question"</span>, <span class="st">"Resp"</span>, <span class="st">"Acc"</span>, <span class="st">"RespRT"</span>))</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> d</span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a><span class="fu">## Codebook/Data Dictionary</span></span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>We then wanted to create a thorough understanding of the variables explored in this dataset. This data dictionary explains all of the variables that will be analyzed.</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>| Variable   | Meaning                                         |</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>|------------|-------------------------------------------------|</span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>| Index      | Results Index                                   |</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>| Time       | Time                                            |</span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>| Counter    | Counter                                         |</span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>| Hash       | Hash                                            |</span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>| Owner      | Logged&nbsp;in&nbsp;as&nbsp;experiment&nbsp;owner?&nbsp;(if&nbsp;known)       |</span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>| Controller | Controller Name                                 |</span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>| Item       | Item Number                                     |</span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>| Element    | Element Number                                  |</span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>| Type       | Type                                            |</span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>| Group      | Group                                           |</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>| FieldName  | Field name                                      |</span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>| Value      | Field Value                                     |</span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a>| WordNum    | Word Number                                     |</span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a>| Word       | Word                                            |</span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>| Alt        | Alternative                                     |</span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a>| WordOn     | Word on(0=left, 1=right)                        |</span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>| CorrWord   | Correct                                         |</span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>| RT         | Reading&nbsp;time&nbsp;to&nbsp;first&nbsp;answer                    |</span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>| Sent       | Sentence                                        |</span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a>| TotalTime  | Total Time to Correct Answer                    |</span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>| Question   | Question&nbsp;(NULL&nbsp;if&nbsp;none).                        |</span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a>| Resp       | Answer                                          |</span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>| Acc        | Whether or not answer was correct (NULL if N/A) |</span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a>| RespRT     | Time taken to answer                            |</span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a>: <span class="co">[</span><span class="ot">**Maze Task Data Dictionary**</span><span class="co">]</span>{.underline}</span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## Number of Participants for Analysis</span></span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a>Our dataset has responses from a total of 38 recipients for analysis. For this step, I wanted to calculate the number of participants that I had data for. In the study, there were initially 40 participants, however one participant's results didn't transfer so there were only 39 for initial analysis. I also screened out the tenth row to remove the first row from the original data, which just had the label for my column "hash." This meant that there were 38 participants that I had data for that I could analyze.</span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a> num_participants <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a>   <span class="fu">count</span>(Hash)</span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a>num_participants <span class="ot">&lt;-</span> num_participants[<span class="sc">-</span><span class="dv">10</span>,]</span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(num_participants)</span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Procedure and Data Clean Up for Analysis</span></span>
+<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a>Data analysis necessitated the removal of certain trials from our dataset to ensure the integrity and reliability of our findings. For this step, item 29 was removed as there was a coding error. This left 67526 rows after removing the trials described in the data analysis section.</span>
+<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/delong maze 40Ss.csv"</span>),</span>
+<span id="cb18-111"><a href="#cb18-111" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">comment.char =</span> <span class="st">"#"</span>, <span class="at">strip.white =</span> T,</span>
+<span id="cb18-112"><a href="#cb18-112" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Index"</span>, <span class="st">"Time"</span>, <span class="st">"Counter"</span>, <span class="st">"Hash"</span>, <span class="st">"Owner"</span>, </span>
+<span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Controller"</span>, <span class="st">"Item"</span>, <span class="st">"Element"</span>, <span class="st">"Type"</span>, <span class="st">"Group"</span>, </span>
+<span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FieldName"</span>, <span class="st">"Value"</span>, <span class="st">"WordNum"</span>, <span class="st">"Word"</span>, <span class="st">"Alt"</span>, </span>
+<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a>                <span class="st">"WordOn"</span>, <span class="st">"CorrWord"</span>, <span class="st">"RT"</span>, <span class="st">"Sent"</span>, <span class="st">"TotalTime"</span>, </span>
+<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Question"</span>, <span class="st">"Resp"</span>, <span class="st">"Acc"</span>, <span class="st">"RespRT"</span>))</span>
+<span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a>df_rt <span class="ot">&lt;-</span> df_all <span class="sc">|&gt;</span> </span>
+<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Controller <span class="sc">==</span> <span class="st">"Maze"</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">str_detect</span>(Type, <span class="st">"prac"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">13</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> Type, </span>
+<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"exp"</span>, <span class="st">"item"</span>, <span class="st">"expect"</span>, <span class="st">"position"</span>, <span class="st">"pos"</span>, </span>
+<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"cloze"</span>, <span class="st">"art.cloze"</span>, <span class="st">"n.cloze"</span>), </span>
+<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>, <span class="at">fill =</span> <span class="st">"right"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">WordNum =</span> <span class="fu">as.numeric</span>(WordNum),</span>
+<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a>         <span class="at">Acc =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(CorrWord, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>))),</span>
+<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a>         <span class="at">n.cloze.scale =</span>  <span class="fu">scale</span>(n.cloze), </span>
+<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a>         <span class="at">art.cloze.scale =</span> <span class="fu">scale</span>(art.cloze)) <span class="sc">|&gt;</span> </span>
+<span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor)) <span class="sc">|&gt;</span> </span>
+<span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item <span class="sc">!=</span> <span class="dv">29</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Hash <span class="sc">!=</span> <span class="st">"9dAvrH0+R6a0U5adPzZSyA"</span>)</span>
+<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_rt)</span>
+<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a><span class="fu">## Mean, min, max, and standard deviation of participant ages</span></span>
+<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a>I wanted to understand the role of age in predictive analytics. I calculated summary statistics for participant ages, revealing key insights into the composition of this sample, including mean, minimum, maximum, and standard deviation of participant ages. This table shows that our participants varied widely in ages, between 18 and 17, with a mean age of 34.8. Understanding the age distribution of participants is crucial for understanding our findings as variations in reaction times/cognitive processes may be influenced by age-related factors.</span>
+<span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a>demo <span class="ot">&lt;-</span> d[d<span class="sc">$</span>Controller <span class="sc">==</span> <span class="st">"Form"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]</span>
+<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(demo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Subject"</span>,<span class="st">"MD5"</span>,<span class="st">"TrialType"</span>,<span class="st">"Number"</span>,<span class="st">"Element"</span>,<span class="st">"Experiment"</span>,<span class="st">"Item"</span>,<span class="st">"Field"</span>,<span class="st">"Response"</span>,<span class="st">"X"</span>,<span class="st">"field"</span>,<span class="st">"resp"</span>)</span>
+<span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(demo, <span class="cf">function</span> (x) <span class="cf">if</span> (<span class="fu">is.factor</span>(x) <span class="sc">|</span> <span class="fu">is.character</span>(x)) <span class="fu">factor</span>(x) <span class="cf">else</span> x))</span>
+<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-149"><a href="#cb18-149" aria-hidden="true" tabindex="-1"></a>age_summary <span class="ot">&lt;-</span> demo <span class="sc">%&gt;%</span> </span>
+<span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(field <span class="sc">==</span> <span class="st">"age"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">m.age =</span> <span class="fu">mean</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp))), </span>
+<span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">min.age =</span> <span class="fu">min</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp))), </span>
+<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">max.age =</span> <span class="fu">max</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp))),</span>
+<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">sd.age =</span> <span class="fu">sd</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp))))</span>
+<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a>age_summary_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(age_summary)</span>
+<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a>age_summary_table <span class="ot">&lt;-</span> knitr <span class="sc">::</span> <span class="fu">kable</span>(age_summary_df, <span class="at">format=</span> <span class="st">"markdown"</span>)</span>
+<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(age_summary_table)</span>
+<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure 1: Response times by region</span></span>
+<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a>Figure 1 (below) shows the response times by expected answer. This figure shows the response time by Expectation, with RTs for the unexpected group being significantly slower on the noun and preceding article.</span>
+<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a>rt <span class="ot">&lt;-</span> d[d<span class="sc">$</span>Controller <span class="sc">==</span> <span class="st">"Maze"</span> <span class="sc">&amp;</span> <span class="fu">substr</span>(d<span class="sc">$</span>Type,<span class="dv">1</span>,<span class="dv">4</span>) <span class="sc">!=</span> <span class="st">"prac"</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">13</span><span class="sc">:</span><span class="dv">20</span>)]</span>
+<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a>rt <span class="ot">&lt;-</span> <span class="fu">separate</span>(<span class="at">data =</span> rt, <span class="at">col =</span> Type, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"exp"</span>, <span class="st">"item"</span>, <span class="st">"expect"</span>, <span class="st">"position"</span>, <span class="st">"pos"</span>, <span class="st">"cloze"</span>, <span class="st">"art.cloze"</span>, <span class="st">"n.cloze"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>, <span class="at">fill =</span> <span class="st">"right"</span>)</span>
+<span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a>rt <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(rt, <span class="cf">function</span> (x) <span class="cf">if</span> (<span class="fu">is.factor</span>(x) <span class="sc">|</span> <span class="fu">is.character</span>(x)) <span class="fu">factor</span>(x) <span class="cf">else</span> x))</span>
+<span id="cb18-173"><a href="#cb18-173" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>WordNum <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(rt<span class="sc">$</span>WordNum))</span>
+<span id="cb18-174"><a href="#cb18-174" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>RT <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(rt<span class="sc">$</span>RT))</span>
+<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>TotalTime <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(rt<span class="sc">$</span>TotalTime))</span>
+<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>Acc <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(rt<span class="sc">$</span>CorrWord, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>)))</span>
+<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>n.cloze.scale <span class="ot">&lt;-</span> <span class="fu">scale</span>(rt<span class="sc">$</span>n.cloze)</span>
+<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a>rt<span class="sc">$</span>art.cloze.scale <span class="ot">&lt;-</span> <span class="fu">scale</span>(rt<span class="sc">$</span>art.cloze)</span>
+<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a>rt.s <span class="ot">&lt;-</span> rt[rt<span class="sc">$</span>Hash <span class="sc">!=</span> <span class="st">'9dAvrH0+R6a0U5adPzZSyA'</span>,]</span>
+<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-183"><a href="#cb18-183" aria-hidden="true" tabindex="-1"></a>rt.s<span class="sc">$</span>rgn.fix <span class="ot">&lt;-</span> rt.s<span class="sc">$</span>WordNum <span class="sc">-</span> rt.s<span class="sc">$</span>pos <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb18-184"><a href="#cb18-184" aria-hidden="true" tabindex="-1"></a>rt.s<span class="sc">$</span>word.num.z <span class="ot">&lt;-</span> <span class="fu">scale</span>(rt.s<span class="sc">$</span>WordNum)</span>
+<span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a>rt.s<span class="sc">$</span>word.len <span class="ot">&lt;-</span> <span class="fu">nchar</span>(<span class="fu">as.character</span>(rt.s<span class="sc">$</span>Word))</span>
+<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a>rt.s<span class="sc">$</span>Altword.len <span class="ot">&lt;-</span> <span class="fu">nchar</span>(<span class="fu">as.character</span>(rt.s<span class="sc">$</span>Alt))</span>
+<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(rt.s<span class="sc">$</span>expect) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">5</span>,.<span class="dv">5</span>)</span>
+<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a>rt.s<span class="sc">$</span>item.expect <span class="ot">&lt;-</span> <span class="fu">paste</span>(rt.s<span class="sc">$</span>item, rt.s<span class="sc">$</span>expect, <span class="at">sep=</span><span class="st">"."</span>)</span>
+<span id="cb18-190"><a href="#cb18-190" aria-hidden="true" tabindex="-1"></a>delong.items <span class="ot">&lt;-</span> rt.s <span class="sc">%&gt;%</span> <span class="fu">filter</span>(rgn.fix <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(item.expect, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-191"><a href="#cb18-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a><span class="co">#Response accuracy</span></span>
+<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a>rt.s.filt <span class="ot">&lt;-</span> rt.s[rt.s<span class="sc">$</span>Hash <span class="sc">!=</span> <span class="st">"gyxidIf0fqXBM7nxg2K7SQ"</span> <span class="sc">&amp;</span> rt.s<span class="sc">$</span>Hash <span class="sc">!=</span> <span class="st">"f8dC3CkleTBP9lUufzUOyQ"</span>,]</span>
+<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a>rt.s.rgn <span class="ot">&lt;-</span> rt.s.filt <span class="sc">%&gt;%</span> <span class="fu">filter</span>(rgn.fix <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">4</span> <span class="sc">&amp;</span> rgn.fix <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Acc <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>()</span>
+<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a>rgn.rt.raw <span class="ot">&lt;-</span> rt.s.filt <span class="sc">%&gt;%</span> <span class="fu">filter</span>(rgn.fix <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">4</span> <span class="sc">&amp;</span> rgn.fix <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Acc <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(rgn.fix, expect) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>(), <span class="at">subj=</span><span class="fu">length</span>(<span class="fu">unique</span>(Hash)), <span class="at">rt=</span><span class="fu">mean</span>(RT), <span class="at">sd=</span><span class="fu">sd</span>(RT), <span class="at">stderr=</span>sd<span class="sc">/</span><span class="fu">sqrt</span>(subj)) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>()</span>
+<span id="cb18-199"><a href="#cb18-199" aria-hidden="true" tabindex="-1"></a>rgn.rt.raw<span class="sc">$</span>rgn <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">recode</span>(rgn.rt.raw<span class="sc">$</span>rgn.fix, <span class="st">"-3"</span><span class="ot">=</span><span class="st">"CW-3"</span>, <span class="st">"-2"</span><span class="ot">=</span><span class="st">"CW-2"</span>, <span class="st">"-1"</span><span class="ot">=</span><span class="st">"CW-1"</span>, <span class="st">"0"</span><span class="ot">=</span><span class="st">"art"</span>, <span class="st">"1"</span><span class="ot">=</span><span class="st">"n"</span>,<span class="st">"2"</span><span class="ot">=</span><span class="st">"CW+1"</span>, <span class="st">"3"</span><span class="ot">=</span><span class="st">"CW+2"</span>, <span class="st">"4"</span><span class="ot">=</span><span class="st">"CW+3"</span>))</span>
+<span id="cb18-200"><a href="#cb18-200" aria-hidden="true" tabindex="-1"></a>rgn.rt.raw<span class="sc">$</span>rgn <span class="ot">&lt;-</span> <span class="fu">ordered</span>(rgn.rt.raw<span class="sc">$</span>rgn, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CW-3"</span>, <span class="st">"CW-2"</span>, <span class="st">"CW-1"</span>, <span class="st">"art"</span>, <span class="st">"n"</span>, <span class="st">"CW+1"</span>, <span class="st">"CW+2"</span>, <span class="st">"CW+3"</span>))</span>
+<span id="cb18-201"><a href="#cb18-201" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rgn.rt.raw, <span class="fu">aes</span>(<span class="at">x=</span>rgn, <span class="at">y=</span>rt, <span class="at">group=</span>expect, <span class="at">shape=</span>expect)) <span class="sc">+</span></span>
+<span id="cb18-202"><a href="#cb18-202" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span>.<span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb18-203"><a href="#cb18-203" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span>.<span class="dv">3</span>), <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> rt<span class="sc">-</span>stderr, <span class="at">ymax =</span> rt<span class="sc">+</span>stderr), <span class="at">width=</span>.<span class="dv">15</span>, <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span>.<span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">""</span>, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Expected"</span>, <span class="st">"Unexpected"</span>), <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">19</span>)) <span class="sc">+</span> </span>
+<span id="cb18-206"><a href="#cb18-206" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Word"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Reading Time (msec)"</span>) <span class="sc">+</span> </span>
+<span id="cb18-207"><a href="#cb18-207" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-209"><a href="#cb18-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-210"><a href="#cb18-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Table for Figure 1</span></span>
+<span id="cb18-211"><a href="#cb18-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-212"><a href="#cb18-212" aria-hidden="true" tabindex="-1"></a>This table (below) summarizes the results found in figure 1 and shows more info on the response time by region. The presented table summarizes the key findings, providing a reference point for researchers interested in predictive linguistics.</span>
+<span id="cb18-213"><a href="#cb18-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-216"><a href="#cb18-216" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-217"><a href="#cb18-217" aria-hidden="true" tabindex="-1"></a>summary_rgn <span class="ot">&lt;-</span> rgn.rt.raw <span class="sc">%&gt;%</span> </span>
+<span id="cb18-218"><a href="#cb18-218" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rgn, expect) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-219"><a href="#cb18-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb18-220"><a href="#cb18-220" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_RT=</span> <span class="fu">mean</span>(rt),</span>
+<span id="cb18-221"><a href="#cb18-221" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min_RT=</span> <span class="fu">min</span>(rt),</span>
+<span id="cb18-222"><a href="#cb18-222" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max_RT=</span><span class="fu">max</span>(rt)</span>
+<span id="cb18-223"><a href="#cb18-223" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-224"><a href="#cb18-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-225"><a href="#cb18-225" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summary_rgn)</span>
+<span id="cb18-226"><a href="#cb18-226" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-227"><a href="#cb18-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-228"><a href="#cb18-228" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conclusions and Key Takeaways</span></span>
+<span id="cb18-229"><a href="#cb18-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-230"><a href="#cb18-230" aria-hidden="true" tabindex="-1"></a>Our study explored how people understand language, focusing on the "a/an" contrast in English. We found that when people expect to see a certain word, like "a" or "an," they react faster. This suggests that our brains use predictions to understand language more quickly. We also looked at how age might affect this process. While we found some differences, more research is needed to understand how age impacts language understanding.</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>
